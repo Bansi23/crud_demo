@@ -1,0 +1,109 @@
+<div class="mx-5">
+  <div class="table-responsive">
+    <form [formGroup]="registerForm" (submit)="submitForm($event, registerForm.value)">
+      <div formArrayName="itemRows">
+        <div class="col-lg-12 ">
+          <button class="btn btn-info btn-sm my-5 mx-5" (click)="add()"><i class="fa fa-plus"></i>&nbsp; Add</button>
+        </div>
+
+        <table class="table table-bordered table-striped col-lg-12">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>BOD</th>
+              <th>Address</th>
+              <th>Gender</th>
+              <th>Mo no.</th>
+              <th>E-mail</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itemrow of registerForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+              <td>
+
+                <div class="form-group">
+                  <input type="text" id="nm" class="form-control" formControlName="name" placeholder="Enter Name"
+                    required name="name">
+                  <span class="text-danger"
+                    *ngIf="itemrow.get('name').hasError('required') && itemrow.get('name').touched ">
+                    Name is required
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <input type="date" class="form-control " id="bod" name="bod" placeholder="Birth Of date" required
+                    formControlName="bod">
+                  <!-- <my-date-picker [options]="myDatePickerOptions" formControlName="bod" required>
+                  </my-date-picker> -->
+                  <span class="text-danger"
+                    *ngIf="itemrow.get('bod').hasError('required') && itemrow.get('bod').touched ">
+                    Birth of Date is required
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <textarea class="form-control " id="address" placeholder="Enter Address" name="add" required
+                    formControlName="add"></textarea>
+                  <span class="text-danger"
+                    *ngIf="itemrow.get('add').hasError('required') && itemrow.get('add').touched ">
+                    Address is required
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <select class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <input formControlName="contactno" class="form-control" type="text" maxlength="10" name="contactnm"
+                    placeholder="Enter Contact No">
+                  <span class="text-danger"
+                    *ngIf="itemrow.get('contactno').hasError('required') && itemrow.get('contactno').touched ">
+                    Mobile Number is required
+                  </span>
+                  <span class="text-danger" *ngIf="itemrow.get('contactno').hasError('pattern')">
+                    Enter only positive 10 digit number
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <div class="input-group with-focus">
+                      <input formControlName="mail" class="form-control" type="email" name="mail"
+                    placeholder="Enter Mail" autocomplete="off">
+                  </div>
+                    <span class="text-danger"
+                      *ngIf="itemrow.get('mail').hasError('required') && itemrow.get('mail').touched ">
+                      E-mail is required
+                    </span>
+                    <span class="text-danger"
+                      *ngIf="itemrow.get('mail').hasError('pattern') && itemrow.get('mail').touched ">
+                      Enter e-mail proper format Address
+                    </span> 
+                </div>
+              </td>
+              <td>
+                <div *ngIf="itemrow.get('mail').invalid">
+                  <button class="btn btn-primary fa fa-save btn-sm" (click)="save(i);"></button>&nbsp;
+                  <button class="btn btn-danger fa fa-times btn-sm"(click)="cancleEdit(i)"></button>
+                </div>
+                <div *ngIf="!itemrow.get('mail').invalid">
+                  <button class="btn btn-success fa fa-edit btn-sm" (click)="editRow(i)"></button>&nbsp;
+                  <button class="btn btn-danger fa fa-trash btn-sm" (click)="deleteRow(i)"></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

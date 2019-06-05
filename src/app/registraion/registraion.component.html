@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="row">
+      <div class="col col-sm-12 col-md-8 col-lg-8 mx-auto">
+        <div class="card my-5 ">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign up</h5>
+            <form [formGroup]="registerForm" (submit)="submitForm($event, registerForm.value)">
+             
+  
+              <div formArrayName="itemRows">
+    
+                <div *ngFor="let itemrow of registerForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                    <div class="form-group">
+                        <label for="nameInput">Name<span class="text-danger"
+                            *ngIf="registerForm.controls.name.errors?.required">*</span></label>
+                        <input type="text" id="nm" class="form-control" formControlName="name" placeholder="Enter Name" required
+                          name="name">
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('name').hasError('required') && registerForm.get('name').touched ">
+                          Name is required
+                        </span>
+                      </div>
+          
+                      <div class="form-group">
+                        <label for="bod">Birth Of Date<span class="text-danger"
+                            *ngIf="registerForm.controls.bod.errors?.required">*</span></label>
+                        <input type="date" class="form-control " id="bod" name="bod" placeholder="Birth Of date" required
+                          formControlName="bod">
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('bod').hasError('required') && registerForm.get('bod').touched ">
+                          Birth of Date is required
+                        </span>
+                      </div>
+          
+          
+                      <div class="form-group">
+                        <label for="add">Address<span class="text-danger"
+                            *ngIf="registerForm.controls.add.errors?.required">*</span></label>
+                        <textarea class="form-control " minlength="10" id="address" placeholder="Enter Address" name="add"
+                          required formControlName="add"></textarea>
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('add').hasError('required') && registerForm.get('add').touched ">
+                          Address is required
+                        </span>
+                      </div>
+          
+                      <div class="form-group">
+                        <label for="gender">Gender<span class="text-danger"
+                            *ngIf="registerForm.controls.gender.errors?.required">*</span></label>&nbsp;
+                        <input type="radio" id="male" name="gender" value="Male" formControlName="gender">Male &nbsp; &nbsp;
+                        &nbsp;
+                        <input type="radio" id="female" name="gender" value="Female" formControlName="gender">Female
+                        <div class="text-danger"
+                          *ngIf="registerForm.get('gender').hasError('required') && registerForm.get('gender').touched ">
+                          Select Any one
+                        </div>
+          
+                      </div>
+          
+                      <div class="form-group">
+                        <label for="mail">E-mail<span class="text-danger"
+                            *ngIf="registerForm.controls.mail.errors?.required || registerForm.controls.mail.errors?.email">*</span></label>
+                        <div class="input-group with-focus">
+                          <input class="form-control" type="email" name="email" placeholder="Enter email" autocomplete="off"
+                            formControlName="mail" required />
+                        </div>
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('mail').hasError('required') && registerForm.get('mail').touched ">
+                          E-mail is required
+                        </span>
+          
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('mail').hasError('email') && registerForm.get('mail').touched ">
+                          Enter e-mail proper format Address
+                        </span>
+                      </div>
+          
+                      <div class="form-group">
+                        <label for="pass">Password<span class="text-danger"
+                            *ngIf="registerForm.controls.pass.errors?.required">*</span></label>
+                        <input class="form-control" type="password" name="pass" passwordToggle placeholder="Enter Password"
+                          autocomplete="off" formControlName="pass" required />
+                        <span class="text-danger"
+                          *ngIf="registerForm.get('pass').hasError('required') && registerForm.get('pass').touched ">
+                          Password is required
+                        </span>
+                      </div>
+          
+                      <div class="form-group">
+                        <label for="cpass">Confirm Password<span class="text-danger"
+                            *ngIf="registerForm.controls.cpass.errors?.required || registerForm.controls.cpass.errors?.equalTo">*</span></label>
+                        <input class="form-control" type="password" name="cpass" passwordToggle
+                          placeholder="Enter Confirm Password" autocomplete="off" formControlName="cpass" required />
+                        <div class="text-danger"
+                          *ngIf="registerForm.controls['cpass'].hasError('required') && (registerForm.controls['cpass'].dirty || registerForm.controls['cpass'].touched)">
+                          This field is required</div>
+          
+                        <span *ngIf="!registerForm.controls['cpass'].hasError('required')">
+                          <span class="text-danger"
+                            *ngIf="registerForm.controls['cpass'].hasError('equalTo') && (registerForm.controls['cpass'].dirty || registerForm.controls['cpass'].touched)">
+                            Passwords do not match</span>
+                        </span>
+                      </div>
+                  <div class="form-group">
+                    <label for="contactnm">Contact {{ i + 1}}<span class="text-danger"
+                        *ngIf="itemrow.controls.contactno.errors?.required || itemrow.controls.contactno.errors?.pattern">*</span></label>
+                    <input formControlName="contactno" class="form-control" type="text" maxlength="10" name="contactnm">
+  
+                    <span class="text-danger"
+                      *ngIf="itemrow.get('contactno').hasError('required') && itemrow.get('contactno').touched ">
+                      Mobile Number is required
+                    </span>
+                    <span class="text-danger" *ngIf="itemrow.get('contactno').hasError('pattern')">
+                      Enter only positive 10 digit number
+                    </span>
+                  </div>
+
+                  <div class="col-md-2">
+                    <button *ngIf="registerForm.controls.itemRows.controls.length > 1" (click)="add()"
+                      class="btn btn-link">Add Record</button>
+                  </div>
+  
+                  <div class="col-md-2">
+                    <button *ngIf="registerForm.controls.itemRows.controls.length > 1" (click)="deleteRow(i)"
+                      class="btn btn-link">Delete</button>
+                  </div>
+                </div>
+                <!-- <button (click)="addNewRow()" class="btn btn-link ">Add</button> -->
+                <button (click)="back()" class="btn btn-secondary ">Back</button>
+
+              </div>
+              <!-- <button class="btn btn-md btn-primary float-right text-uppercase " type="submit">Sign in</button> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
